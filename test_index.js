@@ -1,3 +1,5 @@
+// TODO make this tsc, and make it duh
+
 // testing a WIP fedora by making a TODO app on localhost with it
 
 const fedora = require("./fedora/dist/appWraperrr/bundler_");
