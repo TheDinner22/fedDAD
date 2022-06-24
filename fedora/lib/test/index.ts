@@ -18,7 +18,8 @@ class TestApp {
     // container for all tests
     private tests: {[path: string] : testObj} = {
         // add on the unit and api tests
-        unit: require("./unit").default,
+        // unit: require("./unit").default,
+        unit: require("./localUnit").default
         // api: require("./api").default
     };
 
