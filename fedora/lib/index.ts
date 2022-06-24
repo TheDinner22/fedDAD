@@ -1,5 +1,6 @@
 // testing a WIP fedora by making a TODO app on localhost with it
 import {server, router, MYfs} from "./appWraperrr/bundler_";
+import { parseHTML } from "./this/parser";
 import fs from "fs";
 import https from 'https';
 import { StringDecoder as stringDec} from "string_decoder"
@@ -65,21 +66,32 @@ function sendREQ(callback: callbackLike){
 };
 
 // parse the HTML to get the items4sale
-function parseHTML(rawHtml: string){
-    const startFind = 'bodytext">';
-    const endFind = '';
+function trimHTML(rawHTML: string): string{
+    const startI = rawHTML.indexOf('bodytext');
+    if(startI < 2200){console.log(`startI = ${startI}! WWTF!`)};
 
-    const startI = rawHtml.indexOf(startFind) + (startFind.length-1)
-    const endI = rawHtml.indexOf(endFind) + (endFind.length);
+    const semiFinal = rawHTML.substring(startI, rawHTML.length);
+
+    const endI = semiFinal.indexOf('</td>');
+    const final = semiFinal.substring(0, endI);
+    final.replaceAll("<br>","") // not a function
 
 
-    console.log(rawHtml.slice(startI+1, 2900))
+    return final;
 };
 
-
-// sendREQ((e, res)=>{
-//     parseHTML(res || '');
-// });
+sendREQ((e, res)=>{
+    if(typeof res === "string"){
+        const trimmedRawHTML = trimHTML(res)
+        fs.writeFile("delme.txt", trimmedRawHTML, 'utf8', (err)=>{
+            parseHTML(trimmedRawHTML);
+        });
+    }
+    else{
+        throw new Error("res was not a string");
+        
+    }
+});
 
 // index html route
 router.get("", (data, callbacks) =>{

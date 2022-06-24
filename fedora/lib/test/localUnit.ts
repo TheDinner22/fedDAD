@@ -19,14 +19,18 @@ unit["goUntil works"] = function(done){
     const I = "123456789";
     const O = "123456";
 
-    const actual = goUntil(I, 0, ["7"]).str;
+    let goUntilInfo = goUntil(I, 0, ["7"]);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual = goUntilInfo!.str;
 
     assert.strictEqual(actual, O);
 
     const I2 = "123456789";
     const O2 = "456";
 
-    const actual2 = goUntil(I2, 3, ["7"]).str;
+    goUntilInfo = goUntil(I2, 3, ["7"]);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual2 = goUntilInfo!.str;
 
     assert.strictEqual(actual2, O2);
 
@@ -45,14 +49,18 @@ unit["goUntil works with sting untilChars"] = function(done){
     const I = "123456789";
     const O = "123456";
 
-    const actual = goUntil(I, 0, ["789"]).str;
+    let goUntilInfo = goUntil(I, 0, ["789"]);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual = goUntilInfo!.str;
 
     assert.strictEqual(actual, O);
 
     const I2 = "123456789";
     const O2 = "45";
 
-    const actual2 = goUntil(I2, 3, ["67"]).str;
+    goUntilInfo = goUntil(I2, 3, ["67"]);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual2 = goUntilInfo!.str;
 
     assert.strictEqual(actual2, O2);
 
@@ -71,14 +79,18 @@ unit["goUntil works backwards"] = function(done){
     const I = "123456789";
     const O = "456789";
 
-    const actual = goUntil(I, 8, ["123"], false).str;
+    let goUntilInfo = goUntil(I, 8, ["123"], false);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual = goUntilInfo!.str;
 
     assert.strictEqual(actual, O);
 
     const I2 = "123456789";
     const O2 = "8";
 
-    const actual2 = goUntil(I2, 7, ["67"], false).str;
+    goUntilInfo = goUntil(I2, 7, ["67"], false);
+    if(typeof goUntilInfo === undefined){throw new Error("go until returned undefined how???")}
+    const actual2 = goUntilInfo!.str;
 
     assert.strictEqual(actual2, O2);
 
