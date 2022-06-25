@@ -70,21 +70,24 @@ function trimHTML(rawHTML: string): string{
     const startI = rawHTML.indexOf('bodytext');
     if(startI < 2200){console.log(`startI = ${startI}! WWTF!`)};
 
-    const semiFinal = rawHTML.substring(startI, rawHTML.length);
+    const leftTrimmedStr = rawHTML.substring(startI, rawHTML.length);
 
-    const endI = semiFinal.indexOf('</td>');
-    const final = semiFinal.substring(0, endI);
-    final.replaceAll("<br>","") // not a function
+    const endI = leftTrimmedStr.indexOf('</td>');
+    const trimmedStr = leftTrimmedStr.substring(0, endI);
+    const re = /<br>/gi
+    const finalStr = trimmedStr.replace(re, "");
 
-
-    return final;
+    return finalStr;
 };
 
+// TODO this is temp
 sendREQ((e, res)=>{
     if(typeof res === "string"){
         const trimmedRawHTML = trimHTML(res)
-        fs.writeFile("delme.txt", trimmedRawHTML, 'utf8', (err)=>{
-            parseHTML(trimmedRawHTML);
+        const arrOfElements = parseHTML(trimmedRawHTML);
+        const jsonStr = arrOfElements.map(element => JSON.stringify(element)).join("\n");
+        fs.writeFile("delme.txt", jsonStr, 'utf8', (err)=>{
+            console.log('done');
         });
     }
     else{

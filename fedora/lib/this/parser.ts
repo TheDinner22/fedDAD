@@ -36,7 +36,7 @@ export function parseHTML(rawHTML: string){
                 res = getElementFromEndBracket(rawHTML, i);
                 if(typeof res !== 'undefined'){
                     listOfElements.push(res);
-                    i = res.endIndexOfElementInHTML;
+                    i = res.endIndexOfElementInHTML + 1;
                 }
                 else{ i++ }
                 break;
@@ -45,7 +45,7 @@ export function parseHTML(rawHTML: string){
                 res = getElementFromOpenBracket(rawHTML, i);
                 if(typeof res !== 'undefined'){
                     listOfElements.push(res);
-                    i = res.endIndexOfElementInHTML;
+                    i = res.endIndexOfElementInHTML + 1;
                 }
                 else{ i++ }
                 break;
@@ -55,8 +55,7 @@ export function parseHTML(rawHTML: string){
                 break;
         }
 
-        // TODO this is temp 
-        if (i === rawHTML.length - 1){
+        if(i >= rawHTML.length){
             done = true;
             break;
         }
