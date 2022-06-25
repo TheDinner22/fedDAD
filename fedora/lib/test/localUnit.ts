@@ -8,9 +8,28 @@ import { testObj } from ".";
 
 // dependencies
 import assert from "assert";
+import fs from "fs";
+import { promisify } from "util";
+const readFilePromise = promisify(fs.readFile);
+const readDirPromise = promisify(fs.readdir);
+
 
 // dependencies (to be tested)
-import { goUntil } from "./../this/parser"; 
+import { goUntil, parseHTML } from "./../this/parser"; 
+
+// get all of the html strings
+async function getHTML() {
+    const fileNames = await readDirPromise("./fedora/lib/test/fakeData/");
+    let myPromises: Promise<string>[] = []; 
+    fileNames.forEach( async (fileName) => {
+        const dataProm = readFilePromise("./fedora/lib/test/fakeData/" + fileName, 'utf8');
+        myPromises.push(dataProm);
+    });
+
+    const rawHtmlStrings = await Promise.all(myPromises);
+
+    return rawHtmlStrings;
+}
 
 //holder for the tests
 let unit:testObj = {};
@@ -102,6 +121,29 @@ unit["goUntil works backwards"] = function(done){
         const actual3 = goUntil(I3, 3, ["7899"]);
     });
 
+    done();
+};
+
+unit["html parser works"] = async function(done){
+    const rawHtmlStrings = await getHTML();
+    const res = parseHTML(rawHtmlStrings[0]);
+    const expectedElement = '<p>test *</p>';
+
+    for(let i = 0; i < res.length; i++){
+        assert.equal(res[i].tagName, 'p');
+        const element = expectedElement.replace('*', (i + 1).toString());
+        assert.equal(res[i].rawElement, element);
+
+    }
+
+    done();
+};
+
+unit["html parser works with nested elements and inline styling"] = async function(done){
+    const rawHtmlStrings = await getHTML();
+    const res = parseHTML(rawHtmlStrings[1]);
+
+    assert.equal(res.length, 2);
     done();
 };
 

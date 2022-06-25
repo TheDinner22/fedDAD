@@ -11,7 +11,7 @@ interface goUntilReturnLike {
     i : number
 }
 
-interface getElementFromOpenBracketReturnLike {
+export interface getElementFromOpenBracketReturnLike {
     tagName: string
     rawElement: string
     startIndexOfElementInHTML: number
