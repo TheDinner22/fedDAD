@@ -11,11 +11,9 @@ interface errorLike {
 }
 type callbackLike = (error: errorLike | false, res?: string) => void;
 
-
-
 // get the html for the webpage
-function sendREQ(callback: callbackLike){
-    //configure request details
+export function sendREQ(callback: callbackLike){
+    //configure request details to go to www.centipedepress.com/scratchanddents.html
     const requestDetails = {
         "protocol" : "https:",
         "hostname" : "www.centipedepress.com",
@@ -65,42 +63,13 @@ function sendREQ(callback: callbackLike){
     req.end();
 };
 
-// parse the HTML to get the items4sale
-function trimHTML(rawHTML: string): string{
-    const startI = rawHTML.indexOf('bodytext');
-    if(startI < 2200){console.log(`startI = ${startI}! WWTF!`)};
-
-    const leftTrimmedStr = rawHTML.substring(startI, rawHTML.length);
-
-    const endI = leftTrimmedStr.indexOf('</td>');
-    const trimmedStr = leftTrimmedStr.substring(0, endI);
-    const re = /<br>/gi
-    const finalStr = trimmedStr.replace(re, "");
-
-    return finalStr;
-};
-
-// TODO this is temp
-sendREQ((e, res)=>{
-    if(typeof res === "string"){
-        const trimmedRawHTML = trimHTML(res)
-        const arrOfElements = parseHTML(trimmedRawHTML);
-        const jsonStr = arrOfElements.map(element => JSON.stringify(element)).join("\n");
-        fs.writeFile("delme.txt", jsonStr, 'utf8', (err)=>{
-            console.log('done');
+if (require.main === module) {
+    // index html route
+    router.get("", (data, callbacks) =>{
+        sendREQ((e, res) => {
+            callbacks.html(res || '');
         });
-    }
-    else{
-        throw new Error("res was not a string");
-        
-    }
-});
-
-// index html route
-router.get("", (data, callbacks) =>{
-    sendREQ((e, res) => {
-        callbacks.html(res || '');
     });
-});
-
-server.init();
+    
+    server.init();
+}
