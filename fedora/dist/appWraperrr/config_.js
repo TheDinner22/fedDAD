@@ -46,7 +46,7 @@ enviroments.production = {
     "envName": "production",
     "hashingSecret": "thisIsASecret",
     // data
-    "use": "FS",
+    "use": "ATLAS/API",
     // ATLAS
     okCollections: ['only'],
     // "DB_URL" : process.argv[2] || process.env.DB_URI,

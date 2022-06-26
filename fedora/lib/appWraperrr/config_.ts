@@ -75,7 +75,7 @@ enviroments.production = {
     "hashingSecret" : "thisIsASecret",
 
     // data
-    "use" : "FS",   
+    "use" : "ATLAS/API",   
     
     // ATLAS
     okCollections: ['only'],
