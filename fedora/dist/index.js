@@ -70,45 +70,45 @@ exports.sendREQ = sendREQ;
 ;
 if (require.main === module) {
     // index html route
-    // router.get("", (data, callbacks) =>{
-    sendREQ((e, res) => __awaiter(void 0, void 0, void 0, function* () {
-        if (typeof res === "string") {
-            // parse the incoming html
-            console.log('1');
-            const incomingJSONStr = yield (0, parserParser_1.parseParseParse)(res);
-            console.log('2');
-            if (typeof incomingJSONStr !== 'string') {
-                throw new Error("idk man no stringy boi LLLL");
-            }
-            console.log('3');
-            const incomingObjArr = (0, parserParser_1.convertJSONStrToObj)(incomingJSONStr);
-            console.log('4');
-            // get previous pages JSON str and objArr
-            console.log('5');
-            const prevObjArr = yield (0, data_1.promiseGet)();
-            console.log('6');
-            if (typeof prevObjArr === "undefined" || typeof prevObjArr === "string") {
-                throw new Error("prevObjArr was not right type");
-            }
-            // compare
-            const newItems4Sale = (0, comparer_1.compareJSON)(prevObjArr, incomingObjArr);
-            // inject red
-            const newRedItems4Sale = (0, injector_1.inject)(newItems4Sale);
-            // store recent                
-            yield (0, data_1.promiseSave)(incomingJSONStr);
-            //replace with red
-            newItems4Sale.forEach((newItem) => {
-                if (typeof res === 'string') {
-                    res = res.replace(newItem, newRedItems4Sale[newItems4Sale.indexOf(newItem)]);
+    bundler_1.router.get("", (data, callbacks) => {
+        sendREQ((e, res) => __awaiter(void 0, void 0, void 0, function* () {
+            if (typeof res === "string") {
+                // parse the incoming html
+                console.log('1');
+                const incomingJSONStr = yield (0, parserParser_1.parseParseParse)(res);
+                console.log('2');
+                if (typeof incomingJSONStr !== 'string') {
+                    throw new Error("idk man no stringy boi LLLL");
                 }
-            });
-            // sendoff html
-            // callbacks.html(res);
-        }
-        else {
-            throw new Error("bro shit was not a string that sucks");
-        }
-    }));
-    // });
+                console.log('3');
+                const incomingObjArr = (0, parserParser_1.convertJSONStrToObj)(incomingJSONStr);
+                console.log('4');
+                // get previous pages JSON str and objArr
+                console.log('5');
+                const prevObjArr = yield (0, data_1.promiseGet)();
+                console.log('6');
+                if (typeof prevObjArr === "undefined" || typeof prevObjArr === "string") {
+                    throw new Error("prevObjArr was not right type");
+                }
+                // compare
+                const newItems4Sale = (0, comparer_1.compareJSON)(prevObjArr, incomingObjArr);
+                // inject red
+                const newRedItems4Sale = (0, injector_1.inject)(newItems4Sale);
+                // store recent                
+                yield (0, data_1.promiseSave)(incomingJSONStr);
+                //replace with red
+                newItems4Sale.forEach((newItem) => {
+                    if (typeof res === 'string') {
+                        res = res.replace(newItem, newRedItems4Sale[newItems4Sale.indexOf(newItem)]);
+                    }
+                });
+                // sendoff html
+                callbacks.html(res);
+            }
+            else {
+                throw new Error("bro shit was not a string that sucks");
+            }
+        }));
+    });
     bundler_1.server.init();
 }
