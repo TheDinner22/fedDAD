@@ -45,7 +45,7 @@ import { router } from "./../appWraperrr/router_";
 
 class MyServer {
     private httpServer: http.Server;
-    private httpsServer: https.Server;
+    // private httpsServer: https.Server;
 
     constructor(){
         //creating HTTP server
@@ -54,13 +54,13 @@ class MyServer {
         });
 
         //create HTTPS server
-        const httpsServerOptions = { //TODO readfile utf8 pain???
-            "key" : fs.readFileSync(path.join(__dirname,"/../../https/key.pem"), "utf8"), //the "Sync" in the function means this happens synchronously which we need bcuz if its not done when the server starts (which happens next line) it won't start
-            "cert" :  fs.readFileSync(path.join(__dirname,"/../../https/server.crt"), "utf8")
-        };
-        this.httpsServer = https.createServer(httpsServerOptions, (req, res)=>{
-            this.unifiedServer(req, res);
-        });
+        // const httpsServerOptions = { //TODO readfile utf8 pain???
+        //     "key" : fs.readFileSync(path.join(__dirname,"/../../https/key.pem"), "utf8"), //the "Sync" in the function means this happens synchronously which we need bcuz if its not done when the server starts (which happens next line) it won't start
+        //     "cert" :  fs.readFileSync(path.join(__dirname,"/../../https/server.crt"), "utf8")
+        // };
+        // this.httpsServer = https.createServer(httpsServerOptions, (req, res)=>{
+        //     this.unifiedServer(req, res);
+        // });
     }
 
     //all the logic for the https and http servers (the standards and ports may be dif but the logic is the same)
@@ -252,9 +252,9 @@ class MyServer {
         })
 
         // start HTTPS server
-        this.httpsServer.listen(config.httpsPort, function(){
-            console.log("\x1b[35m%s\x1b[0m",`listening on port ${config.httpsPort} envName:${config.envName}`);
-        })
+        // this.httpsServer.listen(config.httpsPort, function(){
+        //     console.log("\x1b[35m%s\x1b[0m",`listening on port ${config.httpsPort} envName:${config.envName}`);
+        // })
     };
 };
 
