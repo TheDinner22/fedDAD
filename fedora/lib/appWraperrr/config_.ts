@@ -5,7 +5,7 @@ export type okToUse = "FS" | "ATLAS" | "ATLAS/API";
 
 type Enviroment = {
     // server/helpers/general
-    httpPort : number
+    httpPort : number | string
     httpsPort? : number
     envName : string
     hashingSecret : string
@@ -28,7 +28,7 @@ let enviroments: {[name: string]: Enviroment } = {};
 //staging (default) enviroment
 enviroments.staging = {
     // server/helpers/general
-    "httpPort" : 3000,
+    "httpPort" : process.env.PORT!,
     "httpsPort" : 3001,
     "envName" : "staging",
     "hashingSecret" : "thisIsASecret",
@@ -37,7 +37,7 @@ enviroments.staging = {
     "use" : "FS",
 
     // ATLAS for dev testing u gotta pass these in order bcuz ts-node is bad, in production pass so they are key-value pairs in process.env!!
-    okCollections: ['test'],
+    okCollections: ['only'],
     // "DB_URL" : process.argv[2] || process.env.DB_URI,
     "CLUSTER_NAME" : process.argv[3] || process.env.CLUSTER_NAME,
     "DB_NAME" : process.argv[4] || process.env.DB_NAME,
@@ -48,7 +48,7 @@ enviroments.staging = {
 // testing enviroment
 enviroments.testing = {
     // server/helpers/general
-    "httpPort" : 4000,
+    "httpPort" : process.env.PORT!,
     "httpsPort" : 4001,
     "envName" : "testing",
     "hashingSecret" : "thisIsASecret",
@@ -57,7 +57,7 @@ enviroments.testing = {
     "use" : "FS",
     
     // ATLAS
-    okCollections: ['test'],
+    okCollections: ['only'],
     // "DB_URL" : process.argv[2] || process.env.DB_URI,
     "CLUSTER_NAME" : process.argv[3] || process.env.CLUSTER_NAME,
     "DB_NAME" : process.argv[4] || process.env.DB_NAME,
@@ -68,7 +68,7 @@ enviroments.testing = {
 //production enviroment
 enviroments.production = {
     // server/helpers/general
-    "httpPort" : 5000,
+    "httpPort" : process.env.PORT!,
     "httpsPort" : 5001,
     "envName" : "production",
     "hashingSecret" : "thisIsASecret",
@@ -77,7 +77,7 @@ enviroments.production = {
     "use" : "FS",   
     
     // ATLAS
-    okCollections: ['test'],
+    okCollections: ['only'],
     // "DB_URL" : process.argv[2] || process.env.DB_URI,
     "CLUSTER_NAME" : process.argv[3] || process.env.CLUSTER_NAME,
     "DB_NAME" : process.argv[4] || process.env.DB_NAME,
