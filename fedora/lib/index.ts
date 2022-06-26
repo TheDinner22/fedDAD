@@ -80,8 +80,6 @@ if (require.main === module) {
                 const incomingJSONStr = await parseParseParse(res);
                 console.log('2')
                 if(typeof incomingJSONStr !== 'string'){throw new Error("idk man no stringy boi LLLL");}
-                await promiseSave(incomingJSONStr);
-                return
                 console.log('3')
                 const incomingObjArr = convertJSONStrToObj(incomingJSONStr);
                 console.log('4')

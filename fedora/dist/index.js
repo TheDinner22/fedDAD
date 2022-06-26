@@ -80,8 +80,6 @@ if (require.main === module) {
             if (typeof incomingJSONStr !== 'string') {
                 throw new Error("idk man no stringy boi LLLL");
             }
-            yield (0, data_1.promiseSave)(incomingJSONStr);
-            return;
             console.log('3');
             const incomingObjArr = (0, parserParser_1.convertJSONStrToObj)(incomingJSONStr);
             console.log('4');
