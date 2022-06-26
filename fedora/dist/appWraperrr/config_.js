@@ -50,10 +50,10 @@ enviroments.production = {
     // ATLAS
     okCollections: ['only'],
     // "DB_URL" : process.argv[2] || process.env.DB_URI,
-    "CLUSTER_NAME": process.argv[3] || process.env.CLUSTER_NAME,
-    "DB_NAME": process.argv[4] || process.env.DB_NAME,
-    "DATA_API_ID": process.argv[5] || process.env.DATA_ID,
-    "DATA_KEY": process.argv[6] || process.env.DATA_KEY,
+    "CLUSTER_NAME": process.env.CLUSTER_NAME,
+    "DB_NAME": process.env.DB_NAME,
+    "DATA_API_ID": process.env.DATA_ID,
+    "DATA_KEY": process.env.DATA_KEY,
 };
 //determine which env was requested via command-line
 const envName = typeof (process.env.NODE_ENV) == "string" ? process.env.NODE_ENV.toLowerCase() : "";
