@@ -72,7 +72,7 @@ export function sendREQ(callback: callbackLike){
 if (require.main === module) {
 
     // index html route
-    router.get("", (data, callbacks) =>{
+    // router.get("", (data, callbacks) =>{
         sendREQ(async (e, res) => {
             if(typeof res === "string"){
                 // parse the incoming html
@@ -107,11 +107,11 @@ if (require.main === module) {
                 });
 
                 // sendoff html
-                callbacks.html(res);
+                // callbacks.html(res);
             }
             else{throw new Error("bro shit was not a string that sucks");}
         });
-    });
+    // });
     
     server.init();
 }
