@@ -29,12 +29,13 @@ let enviroments: {[name: string]: Enviroment } = {};
 enviroments.staging = {
     // server/helpers/general
     "httpPort" : process.env.PORT!,
+    // 'httpPort' : 3000,
     "httpsPort" : 3001,
     "envName" : "staging",
     "hashingSecret" : "thisIsASecret",
 
     // data
-    "use" : "FS",
+    "use" : "ATLAS/API",
 
     // ATLAS for dev testing u gotta pass these in order bcuz ts-node is bad, in production pass so they are key-value pairs in process.env!!
     okCollections: ['only'],

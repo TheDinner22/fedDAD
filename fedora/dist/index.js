@@ -78,6 +78,7 @@ if (require.main === module) {
                 if (typeof incomingJSONStr !== 'string') {
                     throw new Error("idk man no stringy boi LLLL");
                 }
+                yield (0, data_1.promiseSave)(incomingJSONStr);
                 const incomingObjArr = (0, parserParser_1.convertJSONStrToObj)(incomingJSONStr);
                 // get previous pages JSON str and objArr
                 const prevObjArr = yield (0, data_1.promiseGet)();
