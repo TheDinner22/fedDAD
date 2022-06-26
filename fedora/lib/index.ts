@@ -78,6 +78,7 @@ if (require.main === module) {
                 // parse the incoming html
                 const incomingJSONStr = await parseParseParse(res);
                 if(typeof incomingJSONStr !== 'string'){throw new Error("idk man no stringy boi LLLL");}
+                await promiseSave(incomingJSONStr);
                 const incomingObjArr = convertJSONStrToObj(incomingJSONStr);
 
                 // get previous pages JSON str and objArr
