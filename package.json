@@ -1,0 +1,20 @@
+{
+  "name": "feddad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+      "start": "node fedora/dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheDinner22/fedDAD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheDinner22/fedDAD/issues"
+  },
+  "homepage": "https://github.com/TheDinner22/fedDAD#readme"
+}
