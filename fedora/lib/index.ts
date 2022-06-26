@@ -9,7 +9,10 @@ interface errorLike {
     error: string
     name?: string
 }
-type callbackLike = (error: errorLike | false, res?: string) => void;
+
+import { getElementFromOpenBracketReturnLike } from "./this/parser";
+
+export type callbackLike = (error: errorLike | false, res?: string | getElementFromOpenBracketReturnLike[]) => void;
 
 // get the html for the webpage
 export function sendREQ(callback: callbackLike){
@@ -64,10 +67,13 @@ export function sendREQ(callback: callbackLike){
 };
 
 if (require.main === module) {
+
     // index html route
     router.get("", (data, callbacks) =>{
         sendREQ((e, res) => {
-            callbacks.html(res || '');
+            if(typeof res === "string"){
+                callbacks.html(res);
+            }
         });
     });
     

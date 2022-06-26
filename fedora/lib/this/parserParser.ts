@@ -6,10 +6,12 @@
  */
 
 import fs from 'fs';
+import { promisify } from 'util';
 import { sendREQ } from "../index";
 import { parseHTML, goUntil} from "./parser";
 
 import { getElementFromOpenBracketReturnLike } from "./parser";
+import { callbackLike } from "./../index"
 
 function removeSlice(str: string, startI: number, endI: number){
     const sliceToRemove = str.substring(startI, endI);
@@ -31,7 +33,7 @@ function trimHTML(rawHTML: string): string{
     let trimmedStrWithH4 = trimmedStr.replace(re, "");
 
 
-    // remove every fucking stupid ass H4 and its closing tag
+    // remove every stupid H4 and its closing tag
     // get the start and end index of the h4 tag
     while(1){
         // find the next h4 tag
@@ -52,11 +54,10 @@ function trimHTML(rawHTML: string): string{
     return trimmedStrWithH4; // no, it does not have an h4 
 };
 
-export function parseParseParse(HTMLObjArr?: getElementFromOpenBracketReturnLike){
+function parseParse(callback: callbackLike): string | void{
     sendREQ((e, res)=>{
         if(typeof res === "string"){
             const trimmedRawHTML = trimHTML(res)
-            return;
             const arrOfElements = parseHTML(trimmedRawHTML);
 
             const noFormArrOfElements: getElementFromOpenBracketReturnLike[] = [];
@@ -64,21 +65,37 @@ export function parseParseParse(HTMLObjArr?: getElementFromOpenBracketReturnLike
             arrOfElements.forEach((element)=>{if(element.tagName != 'form'){noFormArrOfElements.push(element);}}); 
 
             const jsonStr = noFormArrOfElements.map(element => JSON.stringify(element)).join("\n");
-            fs.writeFile("delme.txt", jsonStr, 'utf8', (err)=>{
-                console.log('done');
-            });
+            callback(false, jsonStr);
         }
-        else{
-            throw new Error("res was not a string");
-        }
+        else{callback({'error' : "res was not a string!"});}
     });
 };
 
-if (require.main === module) {
-    parseParseParse();
+export const parseParseParse = promisify(parseParse);
+
+export function convertJSONStrToObj(JSONStr: string){
+    const JSONStrArr = JSONStr.split("\n");
+    let finalArr: getElementFromOpenBracketReturnLike[] = [];
+    JSONStrArr.forEach((element) => {
+        finalArr.push(JSON.parse(element));
+    });
+    return finalArr;
 }
 
+if (require.main === module) {
+    myMain();
+}
 
+async function myMain(){
+    const promiseParseParse = promisify(parseParse);
 
+    const res1 = await promiseParseParse();
+    const res2 = await promiseParseParse();
+    const res3 = await promiseParseParse();
 
+    if (typeof res1 === "string" && typeof res2 === "string" && typeof res3 === "string"){
+        console.log(res1 === res2);
+        console.log(res2 === res3);
+    }
 
+};
