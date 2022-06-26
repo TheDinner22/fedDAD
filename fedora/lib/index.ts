@@ -1,6 +1,9 @@
 // testing a WIP fedora by making a TODO app on localhost with it
 import {server, router, MYfs} from "./appWraperrr/bundler_";
-import { parseHTML } from "./this/parser";
+import { parseParseParse, convertJSONStrToObj } from "./this/parserParser";
+import { promiseGet, promiseSave } from "./this/data";
+import { compareJSON } from "./this/comparer";
+import { inject } from "./this/injector";
 import fs from "fs";
 import https from 'https';
 import { StringDecoder as stringDec} from "string_decoder"
@@ -70,10 +73,37 @@ if (require.main === module) {
 
     // index html route
     router.get("", (data, callbacks) =>{
-        sendREQ((e, res) => {
+        sendREQ(async (e, res) => {
             if(typeof res === "string"){
+                // parse the incoming html
+                const incomingJSONStr = await parseParseParse(res);
+                if(typeof incomingJSONStr !== 'string'){throw new Error("idk man no stringy boi LLLL");}
+                const incomingObjArr = convertJSONStrToObj(incomingJSONStr);
+
+                // get previous pages JSON str and objArr
+                const prevObjArr = await promiseGet();
+                if(typeof prevObjArr === "undefined" || typeof prevObjArr === "string"){throw new Error("prevObjArr was not right type");}
+
+                // compare
+                const newItems4Sale = compareJSON(prevObjArr, incomingObjArr);
+
+                // inject red
+                const newRedItems4Sale = inject(newItems4Sale);
+
+                // store recent                
+                await promiseSave(incomingJSONStr);
+
+                //replace with red
+                newItems4Sale.forEach((newItem) => {
+                    if(typeof res === 'string'){
+                        res = res.replace(newItem, newRedItems4Sale[newItems4Sale.indexOf(newItem)])
+                    }
+                });
+
+                // sendoff html
                 callbacks.html(res);
             }
+            else{throw new Error("bro shit was not a string that sucks");}
         });
     });
     

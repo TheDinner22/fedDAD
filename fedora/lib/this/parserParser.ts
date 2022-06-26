@@ -9,6 +9,7 @@ import fs from 'fs';
 import { promisify } from 'util';
 import { sendREQ } from "../index";
 import { parseHTML, goUntil} from "./parser";
+import { compareJSON } from './comparer';
 
 import { getElementFromOpenBracketReturnLike } from "./parser";
 import { callbackLike } from "./../index"
@@ -54,21 +55,16 @@ function trimHTML(rawHTML: string): string{
     return trimmedStrWithH4; // no, it does not have an h4 
 };
 
-function parseParse(callback: callbackLike): string | void{
-    sendREQ((e, res)=>{
-        if(typeof res === "string"){
-            const trimmedRawHTML = trimHTML(res)
-            const arrOfElements = parseHTML(trimmedRawHTML);
+function parseParse(RAWHTML: string, callback: callbackLike): string | void{
+        const trimmedRawHTML = trimHTML(RAWHTML);
+        const arrOfElements = parseHTML(trimmedRawHTML);
 
-            const noFormArrOfElements: getElementFromOpenBracketReturnLike[] = [];
-            // remove all form elements
-            arrOfElements.forEach((element)=>{if(element.tagName != 'form'){noFormArrOfElements.push(element);}}); 
+        const noFormArrOfElements: getElementFromOpenBracketReturnLike[] = [];
+        // remove all form elements
+        arrOfElements.forEach((element)=>{if(element.tagName != 'form'){noFormArrOfElements.push(element);}}); 
 
-            const jsonStr = noFormArrOfElements.map(element => JSON.stringify(element)).join("\n");
-            callback(false, jsonStr);
-        }
-        else{callback({'error' : "res was not a string!"});}
-    });
+        const jsonStr = noFormArrOfElements.map(element => JSON.stringify(element)).join("\n");
+        callback(false, jsonStr);
 };
 
 export const parseParseParse = promisify(parseParse);
@@ -81,7 +77,7 @@ export function convertJSONStrToObj(JSONStr: string){
     });
     return finalArr;
 }
-
+/*
 if (require.main === module) {
     myMain();
 }
@@ -96,6 +92,8 @@ async function myMain(){
     if (typeof res1 === "string" && typeof res2 === "string" && typeof res3 === "string"){
         console.log(res1 === res2);
         console.log(res2 === res3);
+
+        console.log(compareJSON(convertJSONStrToObj(res1), convertJSONStrToObj(res2)));
     }
 
-};
+};*/

@@ -92,7 +92,7 @@ export async function get(callback: callbackLike){
 };
 
 export const promiseGet = promisify(get);
-
+/*
 if (require.main === module) {
     myMain();
 }
@@ -106,4 +106,4 @@ async function myMain(){
     const res55 = await promiseGet();
     if(typeof res55 === "undefined" || typeof res55 === "string"){console.log('get returned wrong type!');return;}
     // console.log(res55)
-};
+};*/
