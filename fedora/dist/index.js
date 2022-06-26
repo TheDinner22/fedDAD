@@ -74,13 +74,19 @@ if (require.main === module) {
         sendREQ((e, res) => __awaiter(void 0, void 0, void 0, function* () {
             if (typeof res === "string") {
                 // parse the incoming html
+                console.log('1');
                 const incomingJSONStr = yield (0, parserParser_1.parseParseParse)(res);
+                console.log('2');
                 if (typeof incomingJSONStr !== 'string') {
                     throw new Error("idk man no stringy boi LLLL");
                 }
+                console.log('3');
                 const incomingObjArr = (0, parserParser_1.convertJSONStrToObj)(incomingJSONStr);
+                console.log('4');
                 // get previous pages JSON str and objArr
+                console.log('5');
                 const prevObjArr = yield (0, data_1.promiseGet)();
+                console.log('6');
                 if (typeof prevObjArr === "undefined" || typeof prevObjArr === "string") {
                     throw new Error("prevObjArr was not right type");
                 }

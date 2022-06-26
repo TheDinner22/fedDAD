@@ -76,12 +76,18 @@ if (require.main === module) {
         sendREQ(async (e, res) => {
             if(typeof res === "string"){
                 // parse the incoming html
+                console.log('1')
                 const incomingJSONStr = await parseParseParse(res);
+                console.log('2')
                 if(typeof incomingJSONStr !== 'string'){throw new Error("idk man no stringy boi LLLL");}
+                console.log('3')
                 const incomingObjArr = convertJSONStrToObj(incomingJSONStr);
+                console.log('4')
 
                 // get previous pages JSON str and objArr
+                console.log('5')
                 const prevObjArr = await promiseGet();
+                console.log('6')
                 if(typeof prevObjArr === "undefined" || typeof prevObjArr === "string"){throw new Error("prevObjArr was not right type");}
 
                 // compare
